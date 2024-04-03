@@ -10,8 +10,8 @@ use crate::wmts::grid::ExtentInt;
 /// Level-by-level iterator
 pub struct GridIterator {
     z: u8,
-    x: u32,
-    y: u32,
+    x: u64,
+    y: u64,
     maxz: u8,
     limits: Vec<ExtentInt>,
     finished: bool,
@@ -46,7 +46,7 @@ impl GridIterator {
 
 impl Iterator for GridIterator {
     /// Current cell index `(z, x, y)`
-    type Item = (u8, u32, u32);
+    type Item = (u8, u64, u64);
 
     fn next(&mut self) -> Option<Self::Item> {
         if self.finished {
