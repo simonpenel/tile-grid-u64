@@ -251,7 +251,7 @@ impl Grid {
             .collect()
     }
     /// Tile index limits covering extent
-    pub fn tile_limits(&self, extent: Extent, tolerance: i32) -> Vec<ExtentInt> {
+    pub fn tile_limits(&self, extent: Extent, tolerance: i64) -> Vec<ExtentInt> {
         // Based on mapcache_grid_compute_limits
         const EPSILON: f64 = 0.0000001;
         (0..self.nlevels())
@@ -263,23 +263,23 @@ impl Grid {
 
                 let (mut minx, mut maxx, mut miny, mut maxy) = match self.origin {
                     Origin::BottomLeft => (
-                        (((extent.minx - self.extent.minx) / unitwidth + EPSILON).floor() as i32)
+                        (((extent.minx - self.extent.minx) / unitwidth + EPSILON).floor() as i64)
                             - tolerance,
-                        (((extent.maxx - self.extent.minx) / unitwidth - EPSILON).ceil() as i32)
+                        (((extent.maxx - self.extent.minx) / unitwidth - EPSILON).ceil() as i64)
                             + tolerance,
-                        (((extent.miny - self.extent.miny) / unitheight + EPSILON).floor() as i32)
+                        (((extent.miny - self.extent.miny) / unitheight + EPSILON).floor() as i64)
                             - tolerance,
-                        (((extent.maxy - self.extent.miny) / unitheight - EPSILON).ceil() as i32)
+                        (((extent.maxy - self.extent.miny) / unitheight - EPSILON).ceil() as i64)
                             + tolerance,
                     ),
                     Origin::TopLeft => (
-                        (((extent.minx - self.extent.minx) / unitwidth + EPSILON).floor() as i32)
+                        (((extent.minx - self.extent.minx) / unitwidth + EPSILON).floor() as i64)
                             - tolerance,
-                        (((extent.maxx - self.extent.minx) / unitwidth - EPSILON).ceil() as i32)
+                        (((extent.maxx - self.extent.minx) / unitwidth - EPSILON).ceil() as i64)
                             + tolerance,
-                        (((self.extent.maxy - extent.maxy) / unitheight + EPSILON).floor() as i32)
+                        (((self.extent.maxy - extent.maxy) / unitheight + EPSILON).floor() as i64)
                             - tolerance,
-                        (((self.extent.maxy - extent.miny) / unitheight - EPSILON).ceil() as i32)
+                        (((self.extent.maxy - extent.miny) / unitheight - EPSILON).ceil() as i64)
                             + tolerance,
                     ),
                 };
@@ -288,14 +288,14 @@ impl Grid {
                 if minx < 0 {
                     minx = 0;
                 }
-                if maxx > level_maxx as i32 {
-                    maxx = level_maxx as i32
+                if maxx > level_maxx as i64 {
+                    maxx = level_maxx as i64
                 };
                 if miny < 0 {
                     miny = 0
                 };
-                if maxy > level_maxy as i32 {
-                    maxy = level_maxy as i32
+                if maxy > level_maxy as i64 {
+                    maxy = level_maxy as i64
                 };
 
                 ExtentInt {
