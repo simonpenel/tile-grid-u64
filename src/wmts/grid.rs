@@ -20,14 +20,14 @@ pub struct Extent {
 /// Min and max grid cell numbers
 #[derive(PartialEq, Clone, Debug)]
 pub struct ExtentInt {
-    pub minx: u32,
-    pub miny: u32,
-    pub maxx: u32,
-    pub maxy: u32,
+    pub minx: u64,
+    pub miny: u64,
+    pub maxx: u64,
+    pub maxy: u64,
 }
 
 // Max grid cell numbers
-type CellIndex = (u32, u32);
+type CellIndex = (u64, u64);
 
 /// Grid origin
 #[derive(PartialEq, Clone, Debug)]
@@ -200,7 +200,7 @@ impl Grid {
         self.pixel_width(zoom) / PIXEL_SCREEN_WIDTH
     }
     /// Extent of a given tile in the grid given its x, y, and z in TMS adressing scheme
-    pub fn tile_extent(&self, xtile: u32, ytile: u32, zoom: u8) -> Extent {
+    pub fn tile_extent(&self, xtile: u64, ytile: u64, zoom: u8) -> Extent {
         // based on mapcache_grid_get_tile_extent
         let res = self.resolutions[zoom as usize];
         let tile_sx = self.width as f64;
@@ -221,14 +221,14 @@ impl Grid {
         }
     }
     /// reverse y tile for XYZ adressing scheme
-    pub fn ytile_from_xyz(&self, ytile: u32, zoom: u8) -> u32 {
+    pub fn ytile_from_xyz(&self, ytile: u64, zoom: u8) -> u64 {
         // y = maxy-ytile-1
         let maxy = self.level_max[zoom as usize].1;
 
         maxy.saturating_sub(ytile).saturating_sub(1)
     }
     /// Extent of a given tile in XYZ adressing scheme
-    pub fn tile_extent_xyz(&self, xtile: u32, ytile: u32, zoom: u8) -> Extent {
+    pub fn tile_extent_xyz(&self, xtile: u64, ytile: u64, zoom: u8) -> Extent {
         let y = self.ytile_from_xyz(ytile, zoom);
         self.tile_extent(xtile, y, zoom)
     }
@@ -239,9 +239,9 @@ impl Grid {
         let unitwidth = self.width as f64 * res;
 
         let maxy =
-            ((self.extent.maxy - self.extent.miny - 0.01 * unitheight) / unitheight).ceil() as u32;
+            ((self.extent.maxy - self.extent.miny - 0.01 * unitheight) / unitheight).ceil() as u64;
         let maxx =
-            ((self.extent.maxx - self.extent.minx - 0.01 * unitwidth) / unitwidth).ceil() as u32;
+            ((self.extent.maxx - self.extent.minx - 0.01 * unitwidth) / unitwidth).ceil() as u64;
         (maxx, maxy)
     }
     /// (maxx, maxy) of all grid levels
@@ -299,10 +299,10 @@ impl Grid {
                 };
 
                 ExtentInt {
-                    minx: minx as u32,
-                    maxx: maxx as u32,
-                    miny: miny as u32,
-                    maxy: maxy as u32,
+                    minx: minx as u64,
+                    maxx: maxx as u64,
+                    miny: miny as u64,
+                    maxy: maxy as u64,
                 }
             })
             .collect()
