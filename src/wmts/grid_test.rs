@@ -56,7 +56,7 @@ fn test_bbox() {
     );
 
     //overflow
-    let extent = grid.tile_extent_xyz(486, u32::MAX, 10);
+    let extent = grid.tile_extent_xyz(486, u64::MAX, 10);
     assert_eq!(
         extent,
         Extent {
@@ -240,7 +240,7 @@ mod web_mercator {
     }
 
     /// Returns the upper left (lon, lat) of a tile
-    fn ul(xtile: u32, ytile: u32, zoom: u8) -> LngLat {
+    fn ul(xtile: u64, ytile: u64, zoom: u8) -> LngLat {
         let n = (zoom as f64).exp2();
         let lon_deg = xtile as f64 / n * 360.0 - 180.0;
         let lat_rad = (consts::PI * (1.0 - 2.0 * ytile as f64 / n)).sinh().atan();
@@ -260,7 +260,7 @@ mod web_mercator {
     }
 
     /// Returns the Spherical Mercator bounding box of a tile
-    fn tile_extent(xtile: u32, ytile: u32, zoom: u8) -> Extent {
+    fn tile_extent(xtile: u64, ytile: u64, zoom: u8) -> Extent {
         let a = ul(xtile, ytile, zoom);
         let (ax, ay) = xy(a.lon, a.lat);
         let b = ul(xtile + 1, ytile + 1, zoom);
@@ -274,7 +274,7 @@ mod web_mercator {
     }
 
     /// Returns the (lon, lat) bounding box of a tile
-    fn tile_bounds(xtile: u32, ytile: u32, zoom: u8) -> Extent {
+    fn tile_bounds(xtile: u64, ytile: u64, zoom: u8) -> Extent {
         let a = ul(xtile, ytile, zoom);
         let b = ul(xtile + 1, ytile + 1, zoom);
         Extent {
