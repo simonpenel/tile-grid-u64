@@ -593,7 +593,7 @@ impl Tms {
     /// * `tile` - (x, y, z) tile coordinates or a Tile object we want the upper left geographic coordinates of.
     pub fn ul(&self, tile: &Xyz) -> Result<Coords> {
         let coords = if self.data_crs.as_srid() == 3857 && self.geographic_crs.as_srid() == 4326 {
-            let (lon, lat) = merc_tile_ul(tile.x as u32, tile.y as u32, tile.z);
+            let (lon, lat) = merc_tile_ul(tile.x as u64, tile.y as u64, tile.z);
             Coords::new(lon, lat)
         } else {
             let xy = self.xy_ul(tile);

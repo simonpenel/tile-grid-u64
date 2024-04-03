@@ -56,7 +56,7 @@ pub fn lonlat_to_merc(lon: f64, lat: f64) -> (f64, f64) {
 }
 
 /// Returns the upper left (lon, lat) of a tile
-pub(crate) fn merc_tile_ul(xtile: u32, ytile: u32, zoom: u8) -> (f64, f64) {
+pub(crate) fn merc_tile_ul(xtile: u64, ytile: u64, zoom: u8) -> (f64, f64) {
     let n = (zoom as f64).exp2();
     let lon_deg = xtile as f64 / n * 360.0 - 180.0;
     let lat_rad = (consts::PI * (1.0 - 2.0 * ytile as f64 / n)).sinh().atan();
