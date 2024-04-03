@@ -58,7 +58,7 @@ pub struct Grid {
     /// The (maxx,maxy) point is used to determine how many tiles there are for each zoom level.
     pub extent: Extent,
     /// Spatial reference system (PostGIS SRID).
-    pub srid: i32,
+    pub srid: i64,
     /// Grid units
     pub units: Unit,
     /// This is a list of resolutions for each of the zoom levels defined by the grid.
@@ -160,7 +160,7 @@ impl Grid {
         width: u16,
         height: u16,
         extent: Extent,
-        srid: i32,
+        srid: i64,
         units: Unit,
         resolutions: Vec<f64>,
         origin: Origin,
