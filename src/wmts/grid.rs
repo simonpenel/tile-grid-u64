@@ -222,6 +222,7 @@ impl Grid {
     }
     /// reverse y tile for XYZ adressing scheme
     pub fn ytile_from_xyz(&self, ytile: u32, zoom: u8) -> u32 {
+    	println!("DEBUG SIMON");
         // y = maxy-ytile-1
         let maxy = self.level_max[zoom as usize].1;
 
